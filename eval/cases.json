@@ -1,0 +1,14 @@
+[
+  {"id":"search_instrument_bpm","query":"Найди гитарные идеи от 90 до 110 BPM","kind":"search","titles":["Рифф для куплета"]},
+  {"id":"search_instrument","query":"Покажи все идеи для фортепиано","kind":"search","titles":["Тихая мелодия"]},
+  {"id":"search_mood","query":"Найди все наброски с настроением Спокойное","kind":"search","titles":["Тихая мелодия","Без темпа"]},
+  {"id":"search_empty","query":"Найди идеи для скрипки","kind":"search","titles":[]},
+  {"id":"search_unknown_bpm","query":"Найди все идеи от 1 до 90 BPM","kind":"search","titles":["Тихая мелодия"]},
+  {"id":"search_text","query":"Найди наброски, в названии или заметке которых есть слово перегруз","kind":"search","titles":["Рифф для куплета"]},
+  {"id":"create_explicit","query":"Сохрани новую идею с названием Ночной рифф. Инструмент Гитара, настроение Мрачное, темп 98 BPM.","kind":"create","fields":{"instrument":"Гитара","mood":"Мрачное","bpm":98}},
+  {"id":"create_no_bpm","query":"Сохрани идею: спокойная мелодия на фортепиано. Темп неизвестен, оставь BPM пустым.","kind":"create","fields":{"instrument":"Фортепиано"},"unknown":["bpm"]},
+  {"id":"create_no_mood_or_bpm","query":"Сохрани музыкальную идею с названием Новая запись. Инструмент гитара. Настроение и BPM неизвестны, оставь их пустыми.","kind":"create","fields":{"instrument":"Гитара"},"unknown":["bpm","mood"]},
+  {"id":"audio_only_unknown","query":"Сохрани карточку под названием Аудиозапись. Я приложу аудиофайл позже, но его описание отсутствует. Неизвестные инструмент, настроение и BPM оставь пустыми.","kind":"create","fields":{},"unknown":["bpm","mood","instrument"]},
+  {"id":"delete_unique","query":"Удали карточку с точным названием Тихая мелодия","kind":"delete","title":"Тихая мелодия"},
+  {"id":"delete_ambiguous","query":"Удали рифф. Если риффов несколько, сначала спроси, какой именно.","kind":"clarify"}
+]

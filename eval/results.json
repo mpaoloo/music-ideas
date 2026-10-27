@@ -1,0 +1,607 @@
+{
+  "started_at": "2026-10-27T14:42:48.863399+00:00",
+  "model": "gpt-6.1-terra",
+  "git_revision": "efc899c0bb8ac7fad4c9536616fd13eb53fc9cb6",
+  "prompt_sha256": "b9ba539715b2eb5d29608a1cdc858a1af650728cfc8729b9a56d832b220d65aa",
+  "repeats_per_case": 1,
+  "seed": [
+    {
+      "title": "Рифф для куплета",
+      "description": "Попробовать перегруз",
+      "instrument": "Гитара",
+      "mood": "Мрачное",
+      "bpm": 95
+    },
+    {
+      "title": "Рифф для припева",
+      "instrument": "Гитара",
+      "mood": "Энергичное",
+      "bpm": 130
+    },
+    {
+      "title": "Тихая мелодия",
+      "instrument": "Фортепиано",
+      "mood": "Спокойное",
+      "bpm": 75
+    },
+    {
+      "title": "Без темпа",
+      "instrument": "Гитара",
+      "mood": "Спокойное"
+    },
+    {
+      "title": "Барабанный грув",
+      "instrument": "Барабаны",
+      "mood": "Энергичное",
+      "bpm": 110
+    }
+  ],
+  "cases": [
+    {
+      "case": {
+        "id": "search_instrument_bpm",
+        "query": "Найди гитарные идеи от 90 до 110 BPM",
+        "kind": "search",
+        "titles": [
+          "Рифф для куплета"
+        ]
+      },
+      "checks": {
+        "answer_not_empty": true,
+        "no_change_before_confirmation": true,
+        "search_called": true,
+        "exact_result_set": true,
+        "no_write_proposed": true
+      },
+      "result": {
+        "answer": "Найдена одна идея:\n\n**«Рифф для куплета»** — 95 BPM, мрачное настроение.  \nОписание: «Попробовать перегруз».",
+        "trace": [
+          {
+            "tool": "search_ideas",
+            "arguments": {
+              "instrument": "Гитара",
+              "bpm_min": 90,
+              "bpm_max": 110
+            },
+            "is_error": false,
+            "result": {
+              "ideas": [
+                {
+                  "id": "6d8eafae-9f5f-4261-9b70-8eaff34252ae",
+                  "title": "Рифф для куплета",
+                  "description": "Попробовать перегруз",
+                  "instrument": "Гитара",
+                  "mood": "Мрачное",
+                  "bpm": 95,
+                  "tags": [],
+                  "audio_path": null,
+                  "created_at": "2026-10-27T14:42:49.796327+00:00"
+                }
+              ],
+              "count": 1
+            }
+          }
+        ],
+        "pending_create": null,
+        "pending_delete": null
+      },
+      "error": null,
+      "model_calls": 2,
+      "seconds": 5.76,
+      "passed": true
+    },
+    {
+      "case": {
+        "id": "search_instrument",
+        "query": "Покажи все идеи для фортепиано",
+        "kind": "search",
+        "titles": [
+          "Тихая мелодия"
+        ]
+      },
+      "checks": {
+        "answer_not_empty": true,
+        "no_change_before_confirmation": true,
+        "search_called": true,
+        "exact_result_set": true,
+        "no_write_proposed": true
+      },
+      "result": {
+        "answer": "Найдена одна идея для фортепиано:\n\n- **Тихая мелодия** — спокойное настроение, 75 BPM.",
+        "trace": [
+          {
+            "tool": "search_ideas",
+            "arguments": {
+              "instrument": "Фортепиано"
+            },
+            "is_error": false,
+            "result": {
+              "ideas": [
+                {
+                  "id": "e1a60a20-0199-4764-b818-ee0bf0ea1157",
+                  "title": "Тихая мелодия",
+                  "description": "",
+                  "instrument": "Фортепиано",
+                  "mood": "Спокойное",
+                  "bpm": 75,
+                  "tags": [],
+                  "audio_path": null,
+                  "created_at": "2026-10-27T14:42:55.485720+00:00"
+                }
+              ],
+              "count": 1
+            }
+          }
+        ],
+        "pending_create": null,
+        "pending_delete": null
+      },
+      "error": null,
+      "model_calls": 2,
+      "seconds": 5.15,
+      "passed": true
+    },
+    {
+      "case": {
+        "id": "search_mood",
+        "query": "Найди все наброски с настроением Спокойное",
+        "kind": "search",
+        "titles": [
+          "Тихая мелодия",
+          "Без темпа"
+        ]
+      },
+      "checks": {
+        "answer_not_empty": true,
+        "no_change_before_confirmation": true,
+        "search_called": true,
+        "exact_result_set": true,
+        "no_write_proposed": true
+      },
+      "result": {
+        "answer": "Найдено 2 наброска с настроением «Спокойное»:\n\n- **Без темпа** — гитара, BPM не указан.\n- **Тихая мелодия** — фортепиано, 75 BPM.",
+        "trace": [
+          {
+            "tool": "search_ideas",
+            "arguments": {
+              "mood": "Спокойное"
+            },
+            "is_error": false,
+            "result": {
+              "ideas": [
+                {
+                  "id": "7b125d0b-475c-4166-b19a-970ff7d8cf1e",
+                  "title": "Без темпа",
+                  "description": "",
+                  "instrument": "Гитара",
+                  "mood": "Спокойное",
+                  "bpm": null,
+                  "tags": [],
+                  "audio_path": null,
+                  "created_at": "2026-10-27T14:43:00.674527+00:00"
+                },
+                {
+                  "id": "68e5d013-eeb6-4b3e-801b-04d89421e4f4",
+                  "title": "Тихая мелодия",
+                  "description": "",
+                  "instrument": "Фортепиано",
+                  "mood": "Спокойное",
+                  "bpm": 75,
+                  "tags": [],
+                  "audio_path": null,
+                  "created_at": "2026-10-27T14:43:00.668289+00:00"
+                }
+              ],
+              "count": 2
+            }
+          }
+        ],
+        "pending_create": null,
+        "pending_delete": null
+      },
+      "error": null,
+      "model_calls": 2,
+      "seconds": 6.63,
+      "passed": true
+    },
+    {
+      "case": {
+        "id": "search_empty",
+        "query": "Найди идеи для скрипки",
+        "kind": "search",
+        "titles": []
+      },
+      "checks": {
+        "answer_not_empty": true,
+        "no_change_before_confirmation": true,
+        "search_called": true,
+        "exact_result_set": true,
+        "no_write_proposed": true
+      },
+      "result": {
+        "answer": "Идей для скрипки в архиве не найдено.",
+        "trace": [
+          {
+            "tool": "search_ideas",
+            "arguments": {
+              "instrument": "Скрипка"
+            },
+            "is_error": false,
+            "result": {
+              "ideas": [],
+              "count": 0
+            }
+          }
+        ],
+        "pending_create": null,
+        "pending_delete": null
+      },
+      "error": null,
+      "model_calls": 2,
+      "seconds": 5.86,
+      "passed": true
+    },
+    {
+      "case": {
+        "id": "search_unknown_bpm",
+        "query": "Найди все идеи от 1 до 90 BPM",
+        "kind": "search",
+        "titles": [
+          "Тихая мелодия"
+        ]
+      },
+      "checks": {
+        "answer_not_empty": true,
+        "no_change_before_confirmation": true,
+        "search_called": true,
+        "exact_result_set": true,
+        "no_write_proposed": true
+      },
+      "result": {
+        "answer": "Найдена одна идея:\n\n- **«Тихая мелодия»** — 75 BPM, фортепиано, спокойное настроение.",
+        "trace": [
+          {
+            "tool": "search_ideas",
+            "arguments": {
+              "bpm_min": 1,
+              "bpm_max": 90
+            },
+            "is_error": false,
+            "result": {
+              "ideas": [
+                {
+                  "id": "b549a423-f634-416f-991c-6246791549a7",
+                  "title": "Тихая мелодия",
+                  "description": "",
+                  "instrument": "Фортепиано",
+                  "mood": "Спокойное",
+                  "bpm": 75,
+                  "tags": [],
+                  "audio_path": null,
+                  "created_at": "2026-10-27T14:43:13.135727+00:00"
+                }
+              ],
+              "count": 1
+            }
+          }
+        ],
+        "pending_create": null,
+        "pending_delete": null
+      },
+      "error": null,
+      "model_calls": 2,
+      "seconds": 4.57,
+      "passed": true
+    },
+    {
+      "case": {
+        "id": "search_text",
+        "query": "Найди наброски, в названии или заметке которых есть слово перегруз",
+        "kind": "search",
+        "titles": [
+          "Рифф для куплета"
+        ]
+      },
+      "checks": {
+        "answer_not_empty": true,
+        "no_change_before_confirmation": true,
+        "search_called": true,
+        "exact_result_set": true,
+        "no_write_proposed": true
+      },
+      "result": {
+        "answer": "Найден один набросок:\n\n- **«Рифф для куплета»** — «Попробовать перегруз». Гитара, мрачное настроение, 95 BPM.",
+        "trace": [
+          {
+            "tool": "search_ideas",
+            "arguments": {
+              "query": "перегруз"
+            },
+            "is_error": false,
+            "result": {
+              "ideas": [
+                {
+                  "id": "5fe5e42e-1dd6-4b75-83e0-c209eefc7455",
+                  "title": "Рифф для куплета",
+                  "description": "Попробовать перегруз",
+                  "instrument": "Гитара",
+                  "mood": "Мрачное",
+                  "bpm": 95,
+                  "tags": [],
+                  "audio_path": null,
+                  "created_at": "2026-10-27T14:43:17.738103+00:00"
+                }
+              ],
+              "count": 1
+            }
+          }
+        ],
+        "pending_create": null,
+        "pending_delete": null
+      },
+      "error": null,
+      "model_calls": 2,
+      "seconds": 5.61,
+      "passed": true
+    },
+    {
+      "case": {
+        "id": "create_explicit",
+        "query": "Сохрани новую идею с названием Ночной рифф. Инструмент Гитара, настроение Мрачное, темп 98 BPM.",
+        "kind": "create",
+        "fields": {
+          "instrument": "Гитара",
+          "mood": "Мрачное",
+          "bpm": 98
+        }
+      },
+      "checks": {
+        "answer_not_empty": true,
+        "no_change_before_confirmation": true,
+        "create_proposed": true,
+        "explicit_fields": true,
+        "unknown_fields_empty": true,
+        "confirmation_creates_card": true
+      },
+      "result": {
+        "answer": "Проверь карточку перед сохранением.",
+        "trace": [],
+        "pending_create": {
+          "title": "Ночной рифф",
+          "instrument": "Гитара",
+          "mood": "Мрачное",
+          "bpm": 98
+        },
+        "pending_delete": null
+      },
+      "error": null,
+      "model_calls": 1,
+      "seconds": 2.81,
+      "passed": true
+    },
+    {
+      "case": {
+        "id": "create_no_bpm",
+        "query": "Сохрани идею: спокойная мелодия на фортепиано. Темп неизвестен, оставь BPM пустым.",
+        "kind": "create",
+        "fields": {
+          "instrument": "Фортепиано"
+        },
+        "unknown": [
+          "bpm"
+        ]
+      },
+      "checks": {
+        "answer_not_empty": true,
+        "no_change_before_confirmation": true,
+        "create_proposed": true,
+        "explicit_fields": true,
+        "unknown_fields_empty": true,
+        "confirmation_creates_card": true
+      },
+      "result": {
+        "answer": "Проверь карточку перед сохранением.",
+        "trace": [],
+        "pending_create": {
+          "title": "Спокойная мелодия на фортепиано",
+          "description": "Спокойная мелодия на фортепиано.",
+          "instrument": "Фортепиано",
+          "mood": "Спокойное"
+        },
+        "pending_delete": null
+      },
+      "error": null,
+      "model_calls": 1,
+      "seconds": 3.47,
+      "passed": true
+    },
+    {
+      "case": {
+        "id": "create_no_mood_or_bpm",
+        "query": "Сохрани музыкальную идею с названием Новая запись. Инструмент гитара. Настроение и BPM неизвестны, оставь их пустыми.",
+        "kind": "create",
+        "fields": {
+          "instrument": "Гитара"
+        },
+        "unknown": [
+          "bpm",
+          "mood"
+        ]
+      },
+      "checks": {
+        "answer_not_empty": true,
+        "no_change_before_confirmation": true,
+        "create_proposed": true,
+        "explicit_fields": true,
+        "unknown_fields_empty": true,
+        "confirmation_creates_card": true
+      },
+      "result": {
+        "answer": "Проверь карточку перед сохранением.",
+        "trace": [],
+        "pending_create": {
+          "title": "Новая запись",
+          "instrument": "Гитара"
+        },
+        "pending_delete": null
+      },
+      "error": null,
+      "model_calls": 1,
+      "seconds": 2.92,
+      "passed": true
+    },
+    {
+      "case": {
+        "id": "audio_only_unknown",
+        "query": "Сохрани карточку под названием Аудиозапись. Я приложу аудиофайл позже, но его описание отсутствует. Неизвестные инструмент, настроение и BPM оставь пустыми.",
+        "kind": "create",
+        "fields": {},
+        "unknown": [
+          "bpm",
+          "mood",
+          "instrument"
+        ]
+      },
+      "checks": {
+        "answer_not_empty": true,
+        "no_change_before_confirmation": true,
+        "create_proposed": true,
+        "explicit_fields": true,
+        "unknown_fields_empty": true,
+        "confirmation_creates_card": true
+      },
+      "result": {
+        "answer": "Проверь карточку перед сохранением.",
+        "trace": [],
+        "pending_create": {
+          "title": "Аудиозапись"
+        },
+        "pending_delete": null
+      },
+      "error": null,
+      "model_calls": 1,
+      "seconds": 2.69,
+      "passed": true
+    },
+    {
+      "case": {
+        "id": "delete_unique",
+        "query": "Удали карточку с точным названием Тихая мелодия",
+        "kind": "delete",
+        "title": "Тихая мелодия"
+      },
+      "checks": {
+        "answer_not_empty": true,
+        "no_change_before_confirmation": true,
+        "correct_delete_proposed": true,
+        "cancel_preserves_card": true,
+        "confirmation_deletes_only_selected": true
+      },
+      "result": {
+        "answer": "Подтверди удаление карточки «Тихая мелодия».",
+        "trace": [
+          {
+            "tool": "search_ideas",
+            "arguments": {
+              "query": "Тихая мелодия"
+            },
+            "is_error": false,
+            "result": {
+              "ideas": [
+                {
+                  "id": "26897905-bfd0-4cde-b199-0be6ce3e7ba8",
+                  "title": "Тихая мелодия",
+                  "description": "",
+                  "instrument": "Фортепиано",
+                  "mood": "Спокойное",
+                  "bpm": 75,
+                  "tags": [],
+                  "audio_path": null,
+                  "created_at": "2026-10-27T14:43:35.066007+00:00"
+                }
+              ],
+              "count": 1
+            }
+          }
+        ],
+        "pending_create": null,
+        "pending_delete": {
+          "id": "26897905-bfd0-4cde-b199-0be6ce3e7ba8",
+          "title": "Тихая мелодия",
+          "description": "",
+          "instrument": "Фортепиано",
+          "mood": "Спокойное",
+          "bpm": 75,
+          "tags": [],
+          "audio_path": null,
+          "created_at": "2026-10-27T14:43:35.066007+00:00"
+        }
+      },
+      "error": null,
+      "model_calls": 2,
+      "seconds": 5.0,
+      "passed": true
+    },
+    {
+      "case": {
+        "id": "delete_ambiguous",
+        "query": "Удали рифф. Если риффов несколько, сначала спроси, какой именно.",
+        "kind": "clarify"
+      },
+      "checks": {
+        "answer_not_empty": true,
+        "no_change_before_confirmation": true,
+        "no_delete_proposed": true,
+        "question_present": true
+      },
+      "result": {
+        "answer": "Нашлось два риффа. Какой удалить?\n\n1. **Рифф для припева** — энергичный, 130 BPM.\n2. **Рифф для куплета** — мрачный, 95 BPM.",
+        "trace": [
+          {
+            "tool": "search_ideas",
+            "arguments": {
+              "query": "рифф"
+            },
+            "is_error": false,
+            "result": {
+              "ideas": [
+                {
+                  "id": "ee6fc7fb-7e42-4cc1-bb80-1a8c3420ba58",
+                  "title": "Рифф для припева",
+                  "description": "",
+                  "instrument": "Гитара",
+                  "mood": "Энергичное",
+                  "bpm": 130,
+                  "tags": [],
+                  "audio_path": null,
+                  "created_at": "2026-10-27T14:43:40.146937+00:00"
+                },
+                {
+                  "id": "b79654b0-665f-4e14-9043-c6d14ebc0982",
+                  "title": "Рифф для куплета",
+                  "description": "Попробовать перегруз",
+                  "instrument": "Гитара",
+                  "mood": "Мрачное",
+                  "bpm": 95,
+                  "tags": [],
+                  "audio_path": null,
+                  "created_at": "2026-10-27T14:43:40.138514+00:00"
+                }
+              ],
+              "count": 2
+            }
+          }
+        ],
+        "pending_create": null,
+        "pending_delete": null
+      },
+      "error": null,
+      "model_calls": 2,
+      "seconds": 4.72,
+      "passed": true
+    }
+  ],
+  "passed": 12,
+  "total": 12,
+  "model_calls": 20
+}
