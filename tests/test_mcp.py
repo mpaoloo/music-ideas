@@ -15,7 +15,7 @@ class MCPTests(unittest.IsolatedAsyncioTestCase):
                 tools = await client.list_tools()
                 self.assertEqual(
                     {tool.name for tool in tools.tools},
-                    {"create_idea", "get_idea", "search_ideas"},
+                    {"create_idea", "get_idea", "search_ideas", "delete_idea"},
                 )
                 created = await client.call_tool("create_idea", {
                     "title": "Рифф для куплета", "instrument": "Гитара",

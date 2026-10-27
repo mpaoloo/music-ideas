@@ -64,6 +64,17 @@ async def create(request):
         return JSONResponse(result.structuredContent, status_code=201)
 
 
+async def delete(request):
+    # Этот маршрут вызывается интерфейсом только после явного подтверждения.
+    async with connect_mcp() as client:
+        result = await client.call_tool('delete_idea', {'idea_id': request.path_params['idea_id']})
+        if result.isError:
+            return error('Не удалось удалить карточку.', 502)
+        if not result.structuredContent['deleted']:
+            return error('Карточка уже удалена или не существует.', 404)
+        return JSONResponse({'deleted': True})
+
+
 async def upload(request):
     # Тело запроса — сам файл, без multipart-обёртки. Ограничиваем размер по мере чтения.
     extension = request.headers.get('x-audio-extension', '').lower()
@@ -127,6 +138,7 @@ async def unexpected_error(request, exc):
 app = Starlette(routes=[
     Route('/', index), Route('/api/ideas', library),
     Route('/api/ideas', create, methods=['POST']),
+    Route('/api/ideas/{idea_id}', delete, methods=['DELETE']),
     Route('/api/upload', upload, methods=['POST']),
     Route('/api/ask', ask, methods=['POST']),
     Route('/audio/{name}', audio),

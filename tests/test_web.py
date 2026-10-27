@@ -59,3 +59,14 @@ class WebTests(unittest.IsolatedAsyncioTestCase):
                 self.assertEqual(response.status_code, 503)
                 self.assertIn('пока не подключён', response.json()['error'])
                 self.assertNotIn('LLM_API_KEY', response.json()['error'])
+
+    async def test_delete_card_preserves_other_cards_and_handles_repeated_request(self):
+        with tempfile.TemporaryDirectory() as folder:
+            with patch.dict(os.environ, {'IDEAS_DB_PATH': str(Path(folder) / 'test.sqlite3')}):
+                async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url='http://test') as client:
+                    first = (await client.post('/api/ideas', json={'title': 'Удалить'})).json()
+                    other = (await client.post('/api/ideas', json={'title': 'Оставить'})).json()
+                    self.assertEqual((await client.delete('/api/ideas/' + first['id'])).status_code, 200)
+                    self.assertEqual((await client.delete('/api/ideas/' + first['id'])).status_code, 404)
+                    remaining = (await client.get('/api/ideas')).json()['ideas']
+                    self.assertEqual([card['id'] for card in remaining], [other['id']])

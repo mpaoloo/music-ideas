@@ -46,7 +46,7 @@ class AgentTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(returned["ideas"][0]["title"], "Рифф")
         self.assertEqual(result.answer, "Найден рифф для куплета.")
         names = {tool["function"]["name"] for tool in model.requests[0]["tools"]}
-        self.assertEqual(names, {"create_idea", "get_idea", "search_ideas"})
+        self.assertEqual(names, {"create_idea", "get_idea", "search_ideas", "delete_idea"})
 
     async def test_create_waits_for_confirmation_without_writing(self):
         model = ScriptedModel(tool_call("create_idea", {"title": "Новый рифф"}))
@@ -81,3 +81,23 @@ class AgentTests(unittest.IsolatedAsyncioTestCase):
         async with connect_mcp(self.database) as client:
             with self.assertRaises(AgentError):
                 await run_agent("Поиск", ScriptedModel(call, call), client, max_tool_calls=1)
+
+    async def test_delete_is_only_proposed_until_confirmed(self):
+        async with connect_mcp(self.database) as client:
+            created = await client.call_tool('create_idea', {'title': 'Рифф'})
+            idea = created.structuredContent
+            model = ScriptedModel(tool_call('delete_idea', {'idea_id': idea['id']}))
+            result = await run_agent('Удали рифф', model, client)
+            self.assertEqual(result.pending_delete['id'], idea['id'])
+            still_exists = await client.call_tool('get_idea', {'idea_id': idea['id']})
+            self.assertTrue(still_exists.structuredContent['found'])
+            deleted = await client.call_tool('delete_idea', {'idea_id': idea['id']})
+            self.assertTrue(deleted.structuredContent['deleted'])
+            again = await client.call_tool('delete_idea', {'idea_id': idea['id']})
+            self.assertFalse(again.structuredContent['deleted'])
+
+    async def test_delete_nonexistent_id_does_not_offer_confirmation(self):
+        async with connect_mcp(self.database) as client:
+            model = ScriptedModel(tool_call('delete_idea', {'idea_id': 'missing'}))
+            with self.assertRaises(AgentError):
+                await run_agent('Удали', model, client)

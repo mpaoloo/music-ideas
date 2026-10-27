@@ -47,6 +47,17 @@ def get_idea(idea_id: str) -> dict[str, Any]:
 
 
 @mcp.tool()
+def delete_idea(idea_id: str) -> dict[str, Any]:
+    """Удалить одну карточку по реальному ID после подтверждения пользователя.
+
+    Сначала найди карточку через search_ideas или get_idea. Не угадывай ID.
+    При нескольких совпадениях попроси пользователя выбрать одну карточку.
+    """
+    idea = storage.delete_idea(idea_id)
+    return {"deleted": idea is not None, "idea": asdict(idea) if idea else None}
+
+
+@mcp.tool()
 def search_ideas(
     query: str = "",
     instrument: str | None = None,

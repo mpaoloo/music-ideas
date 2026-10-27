@@ -111,6 +111,14 @@ class IdeaStorage:
             ).fetchone()
         return self._to_idea(row) if row else None
 
+    def delete_idea(self, idea_id: str) -> Idea | None:
+        """Удалить одну карточку и вернуть её. Файлы аудио здесь не удаляются."""
+        with self._connect() as connection:
+            row = connection.execute(
+                "DELETE FROM ideas WHERE id = ? RETURNING *", (idea_id,)
+            ).fetchone()
+        return self._to_idea(row) if row else None
+
     def search_ideas(
         self,
         query: str = "",
