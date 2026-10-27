@@ -77,7 +77,7 @@ async def run_agent(text: str, model: ChatModel, session: ClientSession,
                 raise AgentError("Модель вернула пустой ответ.")
             return AgentResult(answer, trace)
         if not isinstance(calls, list) or used + len(calls) > max_tool_calls:
-            raise AgentError("Достигнут лимит вызовов инструментов. Уточни запрос.")
+            raise AgentError("Достигнут лимит вызовов инструментов. Необходимо уточнить запрос.")
 
         # Проверяем весь набор до выполнения первого вызова.
         parsed = []
@@ -93,21 +93,21 @@ async def run_agent(text: str, model: ChatModel, session: ClientSession,
 
         if any(name == "delete_idea" for _, name, _ in parsed):
             if len(parsed) != 1:
-                raise AgentError("Удаляй по одной карточке за запрос.")
+                raise AgentError("За один запрос возможно удаление только одной карточки.")
             fetched = await session.call_tool("get_idea", parsed[0][2])
             payload = fetched.structuredContent
             if fetched.isError or not payload or not payload.get("found"):
                 raise AgentError("Карточка для удаления не найдена.")
             return AgentResult(
-                "Подтверди удаление карточки «" + payload["idea"]["title"] + "».",
+                "Необходимо подтвердить удаление карточки «" + payload["idea"]["title"] + "».",
                 trace, pending_delete=payload["idea"],
             )
 
         if any(name == "create_idea" for _, name, _ in parsed):
             if len(parsed) != 1:
-                raise AgentError("Сохраняй по одной идее за запрос.")
+                raise AgentError("За один запрос возможно сохранение только одной идеи.")
             return AgentResult(
-                "Проверь карточку перед сохранением.", trace,
+                "Необходимо проверить карточку перед сохранением.", trace,
                 pending_create=parsed[0][2],
             )
 

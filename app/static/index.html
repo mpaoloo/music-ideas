@@ -112,13 +112,13 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; }
   <header class="heading"><div><div class="eyebrow">Твой музыкальный архив</div><h1>Библиотека</h1><p>Записи и заметки, собранные в одном месте.</p></div><button type="button" class="primary" data-view="new">＋ Новый набросок</button></header>
   <form id="search" class="panel">
     <div class="search"><div><label for="query">Поиск по словам</label><input id="query" type="search" placeholder="Название, фраза из описания или тег"></div><button class="secondary">Найти</button></div>
-    <p class="hint">Для запроса вроде «гитарные идеи до 110 BPM» открой AI-помощника.</p>
+    <p class="hint">Для запроса вроде «гитарные идеи до 110 BPM» необходимо открыть AI-помощника.</p>
   </form>
   <div class="library-heading"><h2>Твои наброски</h2><span id="count"></span></div>
   <div id="library" aria-live="polite"></div>
 </section>
 <section id="view-ai" class="ai-layout" hidden>
-  <header class="heading"><div><div class="eyebrow">Работа с описаниями</div><h1>AI-помощник</h1><p>Опиши, что ищешь, или расскажи о новой идее.</p></div></header>
+  <header class="heading"><div><div class="eyebrow">Работа с описаниями</div><h1>AI-помощник</h1><p>Для поиска необходимо описать нужную запись, для создания — новую идею.</p></div></header>
   <div class="panel">
     <div class="ai-intro"><div class="ai-icon" aria-hidden="true">✦</div><div><h2>С чего начнём?</h2><p>Помощник найдёт наброски по твоим условиям или предложит название и теги для новой записи.</p></div></div>
     <div class="examples"><button type="button" class="example">Найди гитарные идеи до 110 BPM</button><button type="button" class="example">Сохрани идею: мрачный рифф для куплета, 95 BPM</button></div>
@@ -129,7 +129,7 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; }
   </div>
 </section>
 <section id="view-new" class="editor" hidden>
-  <header class="heading"><div><div class="eyebrow">Пополнение архива</div><h1>Новый набросок</h1><p id="editor-note">Добавь запись и несколько слов о ней. Остальное можно оставить пустым.</p></div></header>
+  <header class="heading"><div><div class="eyebrow">Пополнение архива</div><h1>Новый набросок</h1><p id="editor-note">Необходимо добавить запись и краткое описание. Остальные поля необязательны.</p></div></header>
   <form id="card" class="panel"><div class="fields">
     <div class="wide"><label for="title">Название *</label><input id="title" required maxlength="200" placeholder="Например, рифф для второго куплета"></div>
     <div class="wide"><label for="description">Заметка</label><textarea id="description" maxlength="5000" placeholder="Что это за идея? Что хочется попробовать дальше?"></textarea></div>
@@ -138,7 +138,7 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; }
     <div><label for="bpm">Темп, BPM</label><input id="bpm" type="number" min="1" step="1" placeholder="Если известен"></div>
     <div><label for="tags">Теги</label><input id="tags" placeholder="Куплет, акустика, репетиция"><p class="hint">Разделяй запятыми.</p></div>
     <div class="wide upload"><label for="file">Аудиозапись</label><input id="file" type="file" accept=".mp3,.wav,.m4a,.ogg"><p class="hint">MP3, WAV, M4A или OGG · до 20 МБ. Можно сохранить только заметку.</p></div>
-  </div><div class="form-footer"><p class="hint">Проверь поля перед сохранением.</p><button class="primary">Сохранить набросок</button></div></form>
+  </div><div class="form-footer"><p class="hint">Перед сохранением необходимо проверить поля.</p><button class="primary">Сохранить набросок</button></div></form>
 </section>
 </main>
 <script>
@@ -164,10 +164,10 @@ function notify(message, isError = false) {
 async function api(url, options) {
   let response;
   try { response = await fetch(url, options); }
-  catch { throw Error('Не удалось связаться с сервисом. Попробуй ещё раз.'); }
+  catch { throw Error('Не удалось связаться с сервисом. Необходимо повторить запрос.'); }
   let data;
   try { data = await response.json(); }
-  catch { throw Error('Не удалось получить ответ. Попробуй ещё раз.'); }
+  catch { throw Error('Не удалось получить ответ. Необходимо повторить запрос.'); }
   if (!response.ok) throw Error(data.error || 'Не удалось выполнить запрос.');
   return data;
 }
@@ -246,7 +246,7 @@ async function library() {
     const empty = node('div', '', 'empty');
     empty.append(node('div', '♫', 'empty-symbol'));
     empty.append(node('h3', $('query').value ? 'Ничего не нашлось' : 'Здесь начнётся твоя коллекция'));
-    empty.append(node('p', $('query').value ? 'Попробуй другое слово или очисти строку поиска.' : 'Добавь первую запись: короткий рифф, мелодию или заметку для будущего трека.'));
+    empty.append(node('p', $('query').value ? 'Необходимо изменить запрос или очистить строку поиска.' : 'Для начала необходимо добавить запись: рифф, мелодию или заметку для будущего трека.'));
     const button = node('button', $('query').value ? 'Показать все записи' : '＋ Добавить первый набросок', 'secondary');
     button.type = 'button';
     button.onclick = () => {
@@ -308,7 +308,7 @@ $('ask').onsubmit = event => {
       const card = result.pending_create;
       for (const field of ['title', 'description', 'instrument', 'mood', 'bpm']) $(field).value = card[field] ?? '';
       $('tags').value = (card.tags || []).join(', ');
-      $('editor-note').textContent = 'Помощник предложил поля. Проверь их, добавь аудио и сохрани набросок.';
+      $('editor-note').textContent = 'Помощник предложил поля. Необходимо проверить их, при необходимости добавить аудио и сохранить набросок.';
       $('review').hidden = false;
     }
   });
@@ -322,7 +322,7 @@ $('card').onsubmit = event => {
     const file = $('file').files[0];
     let audio_path = null;
     if (file) {
-      if (file.size > 20 * 1024 * 1024) throw Error('Файл слишком большой. Выбери запись до 20 МБ.');
+      if (file.size > 20 * 1024 * 1024) throw Error('Файл слишком большой. Необходимо выбрать запись до 20 МБ.');
       if (uploadedFile !== file) {
         const data = await api('/api/upload', {
           method: 'POST', headers: {'X-Audio-Extension': file.name.split('.').pop().toLowerCase()}, body: file
@@ -342,7 +342,7 @@ $('card').onsubmit = event => {
     uploadedFile = null;
     uploadedPath = null;
     $('review').hidden = true;
-    $('editor-note').textContent = 'Добавь запись и несколько слов о ней. Остальное можно оставить пустым.';
+    $('editor-note').textContent = 'Необходимо добавить запись и краткое описание. Остальные поля необязательны.';
     $('query').value = '';
     showView('library');
     notify('Набросок сохранён.');

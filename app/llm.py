@@ -12,7 +12,7 @@ class LLMError(RuntimeError):
 class ChatModel:
     def __init__(self, api_key: str, base_url: str, model: str):
         if not api_key.strip() or not model.strip():
-            raise LLMError("Укажи LLM_API_KEY и LLM_MODEL в .env.")
+            raise LLMError("Необходимо указать LLM_API_KEY и LLM_MODEL в .env.")
         self.api_key = api_key
         self.base_url = base_url.rstrip("/")
         self.model = model
@@ -69,9 +69,9 @@ class ChatModel:
             # Не выводим тело ответа: оно может содержать чувствительные данные.
             raise LLMError(
                 f"API модели вернул HTTP {error.response.status_code}. "
-                "Проверь адрес API, ключ, название модели и доступный баланс."
+                "Необходимо проверить адрес API, ключ, название модели и доступный баланс."
             ) from None
         except httpx.RequestError:
-            raise LLMError("Не удалось связаться с API модели. Проверь соединение и адрес.") from None
+            raise LLMError("Не удалось связаться с API модели. Необходимо проверить соединение и адрес.") from None
         except (ValueError, KeyError, IndexError, TypeError):
             raise LLMError("API модели вернул неожиданный формат ответа.") from None

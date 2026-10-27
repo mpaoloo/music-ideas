@@ -53,14 +53,14 @@ async def create(request):
     try:
         card = Card.model_validate(await request.json())
     except (ValueError, ValidationError):
-        return error('Проверь поля: название обязательно, BPM — положительное целое число.')
+        return error('Необходимо проверить поля: название обязательно, BPM — положительное целое число.')
     if card.audio_path and (not AUDIO_NAME.fullmatch(card.audio_path)
                             or not (UPLOADS / card.audio_path).is_file()):
-        return error('Аудиофайл не найден. Загрузи файл заново.')
+        return error('Аудиофайл не найден. Необходимо загрузить файл заново.')
     async with connect_mcp() as client:
         result = await client.call_tool('create_idea', card.model_dump())
         if result.isError:
-            return error('Не удалось сохранить карточку. Проверь название и BPM.')
+            return error('Не удалось сохранить карточку. Необходимо проверить название и BPM.')
         return JSONResponse(result.structuredContent, status_code=201)
 
 
@@ -112,12 +112,12 @@ async def ask(request):
         body = await request.json()
         text = body.get('text') if isinstance(body, dict) else None
         if not isinstance(text, str) or not text.strip() or len(text) > 5000:
-            return error('Введи запрос от 1 до 5000 символов.')
+            return error('Необходимо ввести запрос от 1 до 5000 символов.')
         model = ChatModel.from_env()
     except ValueError:
         return error('Ожидается JSON с полем text.')
     except LLMError as exc:
-        return error('AI-помощник пока не подключён. Ты можешь добавлять наброски вручную и искать их в библиотеке.', 503)
+        return error('AI-помощник пока не подключён. Добавление набросков вручную и поиск в библиотеке доступны.', 503)
     async with connect_mcp() as client:
         try:
             result = await run_agent(text, model, client)
@@ -126,13 +126,13 @@ async def ask(request):
                 result.pending_create.pop('audio_path', None)
             return JSONResponse(asdict(result))
         except LLMError:
-            return error('Помощник сейчас недоступен. Попробуй позже. Библиотека и сохранение записей продолжают работать.', 502)
+            return error('Помощник сейчас недоступен. Необходимо повторить запрос позже. Библиотека и сохранение записей продолжают работать.', 502)
         except AgentError:
-            return error('Не удалось обработать запрос. Попробуй уточнить инструмент, настроение или темп.', 422)
+            return error('Не удалось обработать запрос. Необходимо уточнить инструмент, настроение или темп.', 422)
 
 
 async def unexpected_error(request, exc):
-    return error('Внутренняя ошибка сервиса. Повтори запрос; подробности в журнале сервера.', 500)
+    return error('Внутренняя ошибка сервиса. Необходимо повторить запрос; подробности в журнале сервера.', 500)
 
 
 app = Starlette(routes=[

@@ -8,7 +8,7 @@ import subprocess
 import time
 
 if os.geteuid() != 0:
-    raise SystemExit('Запусти через sudo.')
+    raise SystemExit('Необходимо запустить через sudo.')
 if not shutil.which('caddy'):
     raise SystemExit('Сначала установи Caddy: sudo apt install -y caddy')
 
